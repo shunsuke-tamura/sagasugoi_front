@@ -64,5 +64,9 @@
   },
   "lint-staged": {
     "*.{js,jsx,vue,ts,tsx}": "vue-cli-service lint"
+  },
+  "volta": {
+    "node": "16.17.1",
+    "yarn": "1.22.19"
   }
 }

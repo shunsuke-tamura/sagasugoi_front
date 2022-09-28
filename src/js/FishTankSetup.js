@@ -1,7 +1,7 @@
 import { Carp } from "./class/Carp";
 
 const bgcol = 25;
-let carp = undefined;
+let carps = [];
 
 const fishTankSetup = function (p5) {
   p5.setup = () => {
@@ -15,14 +15,24 @@ const fishTankSetup = function (p5) {
 
   p5.draw = () => {
     p5.background(bgcol);
-    carp = carp ?? new Carp(p5, 250, 250);
-    carp.update(p5);
-    carp.display(p5);
+    carps.forEach((carp) => {
+      carp.update(p5);
+      carp.display(p5);
+    });
   };
 
   p5.mouseClicked = () => {
-    console.log(carp.collider(p5, p5.mouseX, p5.mouseY));
+    carps.forEach((carp) => {
+      console.log(carp.collider(p5, p5.mouseX, p5.mouseY));
+    });
   };
 };
 
-export { fishTankSetup };
+const addCarps = (p5, newCarps) => {
+  const newCarpInstances = newCarps.map(() => {
+    return new Carp(p5, 250, 250);
+  });
+  carps = [...carps, ...newCarpInstances];
+};
+
+export { fishTankSetup, addCarps };

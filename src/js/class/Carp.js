@@ -2,7 +2,7 @@ const size = { x: 15, y: 40 };
 let f = 1;
 const canvasSize = { x: 500, y: 500 };
 
-export class Fish {
+export class Carp {
   constructor(p5, x, y) {
     this.position = p5.createVector(x, y);
     this.theta = 0;

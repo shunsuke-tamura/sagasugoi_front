@@ -1,7 +1,7 @@
-import { Fish } from "./class/Fish";
+import { Carp } from "./class/Carp";
 
 const bgcol = 25;
-let fish = undefined;
+let carp = undefined;
 
 const fishTankSetup = function (p5) {
   p5.setup = () => {
@@ -15,13 +15,13 @@ const fishTankSetup = function (p5) {
 
   p5.draw = () => {
     p5.background(bgcol);
-    fish = fish ?? new Fish(p5, 250, 250);
-    fish.update(p5);
-    fish.display(p5);
+    carp = carp ?? new Carp(p5, 250, 250);
+    carp.update(p5);
+    carp.display(p5);
   };
 
   p5.mouseClicked = () => {
-    console.log(fish.collider(p5, p5.mouseX, p5.mouseY));
+    console.log(carp.collider(p5, p5.mouseX, p5.mouseY));
   };
 };
 

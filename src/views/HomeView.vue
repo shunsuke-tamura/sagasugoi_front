@@ -1,16 +1,21 @@
 <template>
-  <hello-world />
+  <div>
+    <hello-world />
+    <carp-info-form />
+  </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import HelloWorld from "../components/HelloWorld.vue";
+import CarpInfoForm from "../components/CarpInfoForm.vue";
 
 export default Vue.extend({
   name: "HomeView",
 
   components: {
     HelloWorld,
+    CarpInfoForm,
   },
 });
 </script>

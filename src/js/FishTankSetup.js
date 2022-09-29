@@ -1,7 +1,9 @@
 import { Carp } from "./class/Carp";
+import { ref } from "vue";
 
 const bgcol = 25;
 let carps = [];
+const clickedCarpData = ref();
 
 const fishTankSetup = function (p5) {
   p5.setup = () => {
@@ -24,15 +26,22 @@ const fishTankSetup = function (p5) {
   p5.mouseClicked = () => {
     carps.forEach((carp) => {
       console.log(carp.collider(p5, p5.mouseX, p5.mouseY));
+      if (carp.collider(p5, p5.mouseX, p5.mouseY)) {
+        clickedCarpData.value = {
+          word: carp.word,
+          comment: carp.comment,
+          url: carp.url,
+        };
+      }
     });
   };
 };
 
 const addCarps = (p5, newCarps) => {
-  const newCarpInstances = newCarps.map(() => {
-    return new Carp(p5, 250, 250);
+  const newCarpInstances = newCarps.map((carp) => {
+    return new Carp(p5, 250, 250, carp.word, carp.comment, carp.url);
   });
   carps = [...carps, ...newCarpInstances];
 };
 
-export { fishTankSetup, addCarps };
+export { fishTankSetup, addCarps, clickedCarpData };

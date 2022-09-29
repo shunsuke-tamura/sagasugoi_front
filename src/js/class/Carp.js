@@ -3,7 +3,10 @@ let f = 1;
 const canvasSize = { x: 500, y: 500 };
 
 export class Carp {
-  constructor(p5, x, y) {
+  constructor(p5, x, y, word, comment, url) {
+    this.word = word;
+    this.comment = comment;
+    this.url = url;
     this.position = p5.createVector(x, y);
     this.theta = 0;
     this.color = {

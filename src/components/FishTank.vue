@@ -1,15 +1,13 @@
 <template>
   <div>
     <div id="canvas"></div>
-    <v-btn @click="add" color="primary">鯉ンクリメント</v-btn>
-    <v-btn @click="clickedCarp" color="primary">鯉クリック</v-btn>
   </div>
 </template>
 
 <script setup>
 import { onMounted, ref, toRefs, defineEmits, defineProps, watch } from "vue";
 import p5 from "p5";
-import { fishTankSetup, addCarps } from "../js/FishTankSetup";
+import { fishTankSetup, addCarps, clickedCarpData } from "../js/FishTankSetup";
 
 const emit = defineEmits(["clickedCarp"]);
 
@@ -30,11 +28,15 @@ watch(carps, (afterCarps) => {
   add(afterCarps);
 });
 
-const clickedCarp = () => {
-  emit("clickedCarp", {
-    word: "hogehoge",
-    comment: "huhuhuhhugagagagagaerere",
-    url: "hhhtttttkkk",
-  });
+watch(
+  clickedCarpData,
+  (afterVal) => {
+    clickedCarp(afterVal);
+  },
+  { deep: true }
+);
+
+const clickedCarp = (data) => {
+  emit("clickedCarp", data);
 };
 </script>

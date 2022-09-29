@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
     <v-row justify="center">
-      <fish-tank></fish-tank>
+      <fish-tank @clickedCarp="showCarpDetail"></fish-tank>
     </v-row>
     <v-row justify="end">
       <div class="info-form">
@@ -10,27 +10,44 @@
     </v-row>
     <v-row justify="end">
       <div class="info-form">
-        <carp-info />
+        <carp-info
+          :word="word"
+          :comment="comment"
+          :url="url"
+          :show="showDetail"
+          @close="closeDialog"
+        />
       </div>
     </v-row>
   </div>
 </template>
 
-<script lang="ts">
-import Vue from "vue";
+<script setup lang="ts">
 import CarpInfoForm from "../components/CarpInfoForm.vue";
 import CarpInfo from "@/components/CarpInfo.vue";
 import FishTank from "../components/FishTank.vue";
 
-export default Vue.extend({
-  name: "HomeView",
+import { ref } from "vue";
 
-  components: {
-    CarpInfoForm,
-    CarpInfo,
-    FishTank,
-  },
-});
+const word = ref<string>("");
+const comment = ref<string>("");
+const url = ref<string | undefined>("");
+const showDetail = ref<boolean>(false);
+
+const showCarpDetail = (data: {
+  word: string;
+  comment: string;
+  url: string | undefined;
+}) => {
+  word.value = data.word;
+  comment.value = data.comment;
+  url.value = data.url;
+  showDetail.value = true;
+};
+
+const closeDialog = () => {
+  showDetail.value = false;
+};
 </script>
 
 <style>

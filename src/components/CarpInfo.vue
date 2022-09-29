@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" persistent max-width="600px">
+  <v-dialog v-model="show" persistent max-width="600px">
     <v-card>
       <v-card-title>
         <span class="text-h5">詳細情報</span>
@@ -10,9 +10,7 @@
         <v-text-field v-model="url" label="参考URL" readonly></v-text-field>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" class="mr-4" @click="closeDialog">
-            閉じる
-          </v-btn>
+          <v-btn color="primary" class="mr-4" @click="close"> 閉じる </v-btn>
         </v-card-actions>
       </v-card-text>
     </v-card>
@@ -20,14 +18,20 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { defineProps, defineEmits, toRefs } from "vue";
 
-const word = ref<string | undefined>("undefined");
-const comment = ref<string | undefined>("undefined");
-const url = ref<string | undefined>("undefined");
-const dialog = ref<boolean>(false);
+interface CarpInfoProps {
+  word: string;
+  comment: string;
+  url: string | undefined;
+  show: boolean;
+}
 
-const closeDialog = () => {
-  dialog.value = false;
+const props = defineProps<CarpInfoProps>();
+const { word, comment, url, show } = toRefs(props);
+
+const emit = defineEmits(["close"]);
+const close = () => {
+  emit("close");
 };
 </script>

@@ -3,7 +3,10 @@ let f = 1;
 const canvasSize = { x: 500, y: 500 };
 
 export class Carp {
-  constructor(p5, x, y, word, comment, url) {
+  constructor(p5, word, comment, url) {
+    const x = this.getRandomNum(30, canvasSize.x - 30);
+    const y = this.getRandomNum(30, canvasSize.y - 30);
+    const angle = (p5.PI / 12) * this.getRandomNum(0, 12);
     this.word = word;
     this.comment = comment;
     this.url = url;
@@ -13,7 +16,7 @@ export class Carp {
       filet: p5.color(153, 206, 255),
       body: p5.color(30, 144, 255),
     };
-    this.angle = 0;
+    this.angle = angle;
     this.currentAngularVelocity = 0;
     this.nextAngularVelocity = 0;
     this.currentSpeed = 0;

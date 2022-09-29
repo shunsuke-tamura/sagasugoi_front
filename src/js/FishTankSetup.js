@@ -39,7 +39,7 @@ const fishTankSetup = function (p5) {
 
 const addCarps = (p5, newCarps) => {
   const newCarpInstances = newCarps.map((carp) => {
-    return new Carp(p5, 250, 250, carp.word, carp.comment, carp.url);
+    return new Carp(p5, carp.word, carp.comment, carp.url);
   });
   carps = [...carps, ...newCarpInstances];
 };

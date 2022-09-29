@@ -1,7 +1,7 @@
 <template>
   <v-dialog v-model="dialog" persistent max-width="600px">
     <template v-slot:activator="{ on, attrs }">
-      <v-btn color="primary" dark v-bind="attrs" v-on="on"> Open Dialog </v-btn>
+      <v-btn color="primary" dark v-bind="attrs" v-on="on"> 鯉を作成 </v-btn>
     </template>
     <v-card>
       <v-card-title>
@@ -10,7 +10,6 @@
       <v-card-text>
         <v-form ref="form" v-model="valid">
           <v-text-field v-model="word" label="単語*" required></v-text-field>
-          <!-- <v-text-field v-model="comment" label="説明" required></v-text-field> -->
           <v-textarea
             v-model="comment"
             solo
@@ -20,6 +19,7 @@
           <v-text-field v-model="url" label="参考URL"></v-text-field>
         </v-form>
         <v-card-actions>
+          <v-spacer></v-spacer>
           <v-btn
             :disabled="!valid"
             color="success"

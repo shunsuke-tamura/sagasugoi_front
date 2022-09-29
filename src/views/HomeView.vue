@@ -8,12 +8,18 @@
         <carp-info-form />
       </div>
     </v-row>
+    <v-row justify="end">
+      <div class="info-form">
+        <carp-info />
+      </div>
+    </v-row>
   </div>
 </template>
 
 <script lang="ts">
 import Vue from "vue";
 import CarpInfoForm from "../components/CarpInfoForm.vue";
+import CarpInfo from "@/components/CarpInfo.vue";
 import FishTank from "../components/FishTank.vue";
 
 export default Vue.extend({
@@ -21,6 +27,7 @@ export default Vue.extend({
 
   components: {
     CarpInfoForm,
+    CarpInfo,
     FishTank,
   },
 });

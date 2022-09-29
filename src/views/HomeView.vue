@@ -1,7 +1,7 @@
 <template>
   <div class="main-container">
     <v-row justify="center">
-      <fish-tank @clickedCarp="showCarpDetail"></fish-tank>
+      <fish-tank :carps="carps" @clickedCarp="showCarpDetail"></fish-tank>
     </v-row>
     <v-row justify="end">
       <div class="info-form">
@@ -28,17 +28,20 @@ import CarpInfo from "@/components/CarpInfo.vue";
 import FishTank from "../components/FishTank.vue";
 
 import { ref } from "vue";
+import axiosClient from "@/lib/axios";
 
 const word = ref<string>("");
 const comment = ref<string>("");
 const url = ref<string | undefined>("");
 const showDetail = ref<boolean>(false);
 
-const showCarpDetail = (data: {
+type Carp = {
   word: string;
   comment: string;
   url: string | undefined;
-}) => {
+};
+
+const showCarpDetail = (data: Carp) => {
   word.value = data.word;
   comment.value = data.comment;
   url.value = data.url;
@@ -48,6 +51,14 @@ const showCarpDetail = (data: {
 const closeDialog = () => {
   showDetail.value = false;
 };
+
+const carps = ref<Carp[]>([]);
+axiosClient()
+  .get("/carps")
+  .then((res) => {
+    carps.value = res.data;
+    console.log(carps.value);
+  });
 </script>
 
 <style>

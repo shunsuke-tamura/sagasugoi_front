@@ -7,21 +7,28 @@
 </template>
 
 <script setup>
-import { onMounted, ref, defineEmits } from "vue";
+import { onMounted, ref, toRefs, defineEmits, defineProps, watch } from "vue";
 import p5 from "p5";
 import { fishTankSetup, addCarps } from "../js/FishTankSetup";
 
 const emit = defineEmits(["clickedCarp"]);
 
 const P5 = ref();
+const props = defineProps(["carps"]);
+const { carps } = toRefs(props);
 
 onMounted(() => {
   P5.value = new p5(fishTankSetup);
 });
 
-const add = () => {
-  addCarps(P5.value, [1]);
+const add = (carps) => {
+  addCarps(P5.value, carps);
 };
+
+watch(carps, (afterCarps) => {
+  console.log(afterCarps);
+  add(afterCarps);
+});
 
 const clickedCarp = () => {
   emit("clickedCarp", {

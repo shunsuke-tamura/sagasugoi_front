@@ -38,7 +38,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { ref, defineEmits } from "vue";
 import axiosClient from "../lib/axios";
 
 const word = ref<string | undefined>(undefined);
@@ -55,6 +55,7 @@ const doCancel = () => {
   closeDialog();
 };
 
+const emit = defineEmits(["addCarp"]);
 const doSubmit = async () => {
   const data = {
     word: word.value,
@@ -62,8 +63,10 @@ const doSubmit = async () => {
     url: url.value,
     typeId: "1",
   };
+  console.log(data);
   const res = await axiosClient().post("/carps", data);
   console.log(res.data);
   closeDialog();
+  emit("addCarp", res.data);
 };
 </script>

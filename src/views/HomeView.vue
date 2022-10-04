@@ -5,7 +5,7 @@
     </v-row>
     <v-row justify="end">
       <div class="info-form">
-        <carp-info-form />
+        <carp-info-form @addCarp="add" />
       </div>
     </v-row>
     <v-row justify="end">
@@ -59,6 +59,9 @@ axiosClient()
     carps.value = res.data;
     console.log(carps.value);
   });
+const add = (data) => {
+  carps.value = [data[2]];
+};
 </script>
 
 <style>

@@ -25,7 +25,7 @@ const add = (carps) => {
 
 watch(carps, (afterCarps) => {
   console.log(afterCarps);
-  add(afterCarps);
+  add([afterCarps[afterCarps.length - 1]]);
 });
 
 watch(

@@ -64,7 +64,7 @@ const doSubmit = async () => {
     typeId: "1",
   };
   console.log(data);
-  const res = await axiosClient().post("/carps", data);
+  const res = await axiosClient().post("/carps/", data);
   console.log(res.data);
   closeDialog();
   emit("addCarp", res.data);

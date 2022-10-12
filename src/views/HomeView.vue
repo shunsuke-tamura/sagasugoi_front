@@ -54,13 +54,14 @@ const closeDialog = () => {
 
 const carps = ref<Carp[]>([]);
 axiosClient()
-  .get("/carps")
+  .get("/carps/")
   .then((res) => {
     carps.value = res.data;
     console.log(carps.value);
   });
-const add = (data) => {
-  carps.value = [data[2]];
+
+const add = (newCarp) => {
+  carps.value = [...carps.value, newCarp];
 };
 </script>
 

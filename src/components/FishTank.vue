@@ -23,9 +23,8 @@ const add = (carps) => {
   addCarps(P5.value, carps);
 };
 
-watch(carps, (afterCarps) => {
-  console.log(afterCarps);
-  add([afterCarps[afterCarps.length - 1]]);
+watch(carps, (afterCarps, beforeCarps) => {
+  add(afterCarps.filter((i) => beforeCarps.indexOf(i) === -1));
 });
 
 watch(

@@ -1,3 +1,4 @@
+import getRandomIntNum from "@/lib/GetRandomIntNum";
 import { Carp } from "@/types/Carp";
 import p5 from "p5";
 
@@ -29,9 +30,9 @@ export class CarpClass {
   nextSpeed: number;
   comeback: boolean;
   constructor(p5: p5, carpData: Carp) {
-    const x = this.getRandomNum(30, canvasSize.x - 30);
-    const y = this.getRandomNum(30, canvasSize.y - 30);
-    const angle = (p5.PI / 12) * this.getRandomNum(0, 12);
+    const x = getRandomIntNum(30, canvasSize.x - 30);
+    const y = getRandomIntNum(30, canvasSize.y - 30);
+    const angle = (p5.PI / 12) * getRandomIntNum(0, 12);
     this.carpData = carpData;
     this.position = p5.createVector(x, y);
     this.theta = 0;
@@ -82,11 +83,11 @@ export class CarpClass {
       this.comeback = false;
     }
     if (f % 60 === 0) {
-      this.nextSpeed = this.getRandomNum(0, 30) / 10;
+      this.nextSpeed = getRandomIntNum(0, 30) / 10;
       if (this.nextSpeed < 2) {
-        this.nextAngularVelocity = 2 - this.getRandomNum(0, 4);
+        this.nextAngularVelocity = 2 - getRandomIntNum(0, 4);
       } else {
-        this.nextAngularVelocity = 4 - this.getRandomNum(0, 8);
+        this.nextAngularVelocity = 4 - getRandomIntNum(0, 8);
       }
       f = 1;
     }
@@ -190,9 +191,5 @@ export class CarpClass {
     const rt = { x: +size.x / 2, y: 0 };
     const rb = { x: +size.x / 2, y: size.y };
     return { lt: lt, lb: lb, rt: rt, rb: rb };
-  }
-
-  getRandomNum(a: number, b: number): number {
-    return Math.floor(Math.random() * (a + 1 - b)) + b;
   }
 }

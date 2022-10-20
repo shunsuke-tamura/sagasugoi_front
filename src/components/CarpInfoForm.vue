@@ -40,6 +40,7 @@
 <script setup lang="ts">
 import { ref, defineEmits } from "vue";
 import axiosClient from "../lib/axios";
+import getRandomIntNum from "@/lib/GetRandomIntNum";
 
 const word = ref<string | undefined>(undefined);
 const comment = ref<string | undefined>(undefined);
@@ -57,11 +58,16 @@ const doCancel = () => {
 
 const emit = defineEmits(["addCarp"]);
 const doSubmit = async () => {
+  const r = getRandomIntNum(0, 256);
+  const g = getRandomIntNum(0, 256);
+  const b = getRandomIntNum(0, 256);
   const data = {
     word: word.value,
     comment: comment.value,
     url: url.value,
-    typeId: "1",
+    r: r,
+    g: g,
+    b: b,
   };
   console.log(data);
   const res = await axiosClient().post("/carps/", data);

@@ -1232,6 +1232,11 @@
   resolved "https://registry.yarnpkg.com/@types/normalize-package-data/-/normalize-package-data-2.4.1.tgz#d3357479a0fdfdd5907fe67e17e0a85c906e1301"
   integrity sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==
 
+"@types/p5@^1.4.3":
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/@types/p5/-/p5-1.4.3.tgz#84565d085237fdc149c15e1e9ae8d81db4aa3699"
+  integrity sha512-UjgBi1/VU0Dz1/JxzRZrDKlC54rMELWW+6oHx1pRKzKkVgwzvP+dEjZ1JbeMjK12VJMUjDx4lhGUmnUL2jBASQ==
+
 "@types/parse-json@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@types/parse-json/-/parse-json-4.0.0.tgz#2f8bb441434d163b35fb8ffdccd7138927ffb8c0"

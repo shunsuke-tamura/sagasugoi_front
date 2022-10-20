@@ -1,15 +1,38 @@
+import { Carp } from "@/types/Carp";
+import p5 from "p5";
+
 const size = { x: 15, y: 40 };
 let f = 1;
 const canvasSize = { x: 500, y: 500 };
 
-export class Carp {
-  constructor(p5, word, comment, url) {
+type CarpColor = {
+  filet: p5.Color;
+  body: p5.Color;
+};
+
+type Rigidbody = {
+  lt: { x: number; y: number };
+  lb: { x: number; y: number };
+  rt: { x: number; y: number };
+  rb: { x: number; y: number };
+};
+
+export class CarpClass {
+  carpData: Carp;
+  position: p5.Vector;
+  theta: number;
+  color: CarpColor;
+  angle: number;
+  currentAngularVelocity: number;
+  nextAngularVelocity: number;
+  currentSpeed: number;
+  nextSpeed: number;
+  comeback: boolean;
+  constructor(p5: p5, carpData: Carp) {
     const x = this.getRandomNum(30, canvasSize.x - 30);
     const y = this.getRandomNum(30, canvasSize.y - 30);
     const angle = (p5.PI / 12) * this.getRandomNum(0, 12);
-    this.word = word;
-    this.comment = comment;
-    this.url = url;
+    this.carpData = carpData;
     this.position = p5.createVector(x, y);
     this.theta = 0;
     this.color = {
@@ -25,11 +48,11 @@ export class Carp {
     console.log("create");
   }
 
-  update(p5) {
+  update(p5: p5) {
     this.theta += p5.PI / 100;
   }
 
-  display(p5) {
+  display(p5: p5) {
     f += 1;
 
     p5.push();
@@ -134,7 +157,7 @@ export class Carp {
     p5.pop();
   }
 
-  collider(p5, mouseX, mouseY) {
+  collider(p5: p5, mouseX: number, mouseY: number): boolean {
     p5.push();
     p5.translate(this.position.x, this.position.y);
     p5.rotate(this.angle);
@@ -154,7 +177,7 @@ export class Carp {
     return ltrt && rtrb && rblb && lblt;
   }
 
-  getRigidbody() {
+  getRigidbody(): Rigidbody {
     const lt = { x: -size.x / 2, y: 0 };
     const lb = { x: -size.x / 2, y: size.y };
     const rt = { x: +size.x / 2, y: 0 };
@@ -162,7 +185,7 @@ export class Carp {
     return { lt: lt, lb: lb, rt: rt, rb: rb };
   }
 
-  getRandomNum(a, b) {
+  getRandomNum(a: number, b: number): number {
     return Math.floor(Math.random() * (a + 1 - b)) + b;
   }
 }

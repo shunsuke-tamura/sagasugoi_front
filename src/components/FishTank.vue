@@ -4,23 +4,28 @@
   </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { onMounted, ref, toRefs, defineEmits, defineProps, watch } from "vue";
 import p5 from "p5";
-import { fishTankSetup, addCarps, clickedCarpData } from "../js/FishTankSetup";
+import { fishTankSetup, addCarps, clickedCarpData } from "../ts/FishTankSetup";
+import { Carp } from "@/types/Carp";
 
+interface Props {
+  carps: Carp[];
+}
+
+const props = defineProps<Props>();
 const emit = defineEmits(["clickedCarp"]);
 
-const P5 = ref();
-const props = defineProps(["carps"]);
+let P5 = ref<p5>();
 const { carps } = toRefs(props);
 
 onMounted(() => {
   P5.value = new p5(fishTankSetup);
 });
 
-const add = (carps) => {
-  addCarps(P5.value, carps);
+const add = (carps: Carp[]) => {
+  P5.value && addCarps(P5.value, carps);
 };
 
 watch(carps, (afterCarps, beforeCarps) => {
@@ -30,12 +35,12 @@ watch(carps, (afterCarps, beforeCarps) => {
 watch(
   clickedCarpData,
   (afterVal) => {
-    clickedCarp(afterVal);
+    afterVal && clickedCarp(afterVal);
   },
   { deep: true }
 );
 
-const clickedCarp = (data) => {
+const clickedCarp = (data: Carp) => {
   emit("clickedCarp", data);
 };
 </script>

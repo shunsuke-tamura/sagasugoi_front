@@ -26,6 +26,7 @@
 import CarpInfoForm from "../components/CarpInfoForm.vue";
 import CarpInfo from "@/components/CarpInfo.vue";
 import FishTank from "../components/FishTank.vue";
+import { Carp } from "@/types/Carp";
 
 import { ref } from "vue";
 import axiosClient from "@/lib/axios";
@@ -34,12 +35,6 @@ const word = ref<string>("");
 const comment = ref<string>("");
 const url = ref<string | undefined>("");
 const showDetail = ref<boolean>(false);
-
-type Carp = {
-  word: string;
-  comment: string;
-  url: string | undefined;
-};
 
 const showCarpDetail = (data: Carp) => {
   word.value = data.word;
@@ -60,7 +55,7 @@ axiosClient()
     console.log(carps.value);
   });
 
-const add = (newCarp) => {
+const add = (newCarp: Carp) => {
   carps.value = [...carps.value, newCarp];
 };
 </script>

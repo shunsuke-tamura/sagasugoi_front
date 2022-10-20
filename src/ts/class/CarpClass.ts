@@ -154,6 +154,13 @@ export class CarpClass {
     p5.bezierVertex(0, 0, 10, 10, 0, 30);
     p5.endShape();
 
+    // デバック用Rigidbody表示コード
+    // const { lt, lb, rt, rb } = this.getRigidbody();
+    // p5.stroke(this.color.body);
+    // p5.line(lt.x, lt.y, lb.x, lb.y);
+    // p5.line(lt.x, lt.y, rt.x, rt.y);
+    // p5.line(rb.x, rb.y, lb.x, lb.y);
+    // p5.line(rt.x, rt.y, rb.x, rb.y);
     p5.pop();
   }
 

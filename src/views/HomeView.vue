@@ -10,13 +10,7 @@
     </v-row>
     <v-row justify="end">
       <div class="info-form">
-        <carp-info
-          :word="word"
-          :comment="comment"
-          :url="url"
-          :show="showDetail"
-          @close="closeDialog"
-        />
+        <carp-info :carp="carpData" :show="showDetail" @close="closeDialog" />
       </div>
     </v-row>
   </div>
@@ -31,15 +25,15 @@ import { Carp } from "@/types/Carp";
 import { ref } from "vue";
 import axiosClient from "@/lib/axios";
 
-const word = ref<string>("");
-const comment = ref<string>("");
-const url = ref<string | undefined>("");
+const carpData = ref<Carp>({
+  word: "",
+  comment: "",
+  url: undefined,
+});
 const showDetail = ref<boolean>(false);
 
 const showCarpDetail = (data: Carp) => {
-  word.value = data.word;
-  comment.value = data.comment;
-  url.value = data.url;
+  carpData.value = data;
   showDetail.value = true;
 };
 

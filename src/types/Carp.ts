@@ -1,5 +1,5 @@
 export type Carp = {
   word: string;
   comment: string;
-  url: string | undefined;
+  url: string | undefined | null;
 };

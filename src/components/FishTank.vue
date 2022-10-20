@@ -10,9 +10,9 @@ import p5 from "p5";
 import { fishTankSetup, addCarps, clickedCarpData } from "../ts/FishTankSetup";
 import { Carp } from "@/types/Carp";
 
-interface Props {
+type Props = {
   carps: Carp[];
-}
+};
 
 const props = defineProps<Props>();
 const emit = defineEmits(["clickedCarp"]);

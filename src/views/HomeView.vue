@@ -29,6 +29,9 @@ const carpData = ref<Carp>({
   word: "",
   comment: "",
   url: undefined,
+  r: 0,
+  g: 0,
+  b: 0,
 });
 const showDetail = ref<boolean>(false);
 

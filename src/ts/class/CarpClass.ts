@@ -37,7 +37,7 @@ export class CarpClass {
     this.theta = 0;
     this.color = {
       filet: p5.color(153, 206, 255),
-      body: p5.color(30, 144, 255),
+      body: p5.color(carpData.r, carpData.g, carpData.b),
     };
     this.angle = angle;
     this.currentAngularVelocity = 0;

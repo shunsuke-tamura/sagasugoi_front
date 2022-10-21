@@ -42,5 +42,6 @@ watch(
 
 const clickedCarp = (data: Carp) => {
   emit("clickedCarp", data);
+  clickedCarpData.value = undefined;
 };
 </script>

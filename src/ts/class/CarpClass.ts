@@ -29,6 +29,7 @@ export class CarpClass {
   currentSpeed: number;
   nextSpeed: number;
   comeback: boolean;
+  trajectory: { x: number; y: number }[];
   constructor(p5: p5, carpData: Carp) {
     const x = getRandomIntNum(30, canvasSize.x - 30);
     const y = getRandomIntNum(30, canvasSize.y - 30);
@@ -46,11 +47,32 @@ export class CarpClass {
     this.currentSpeed = 0;
     this.nextSpeed = 1;
     this.comeback = false;
+    this.trajectory = [{ x: x, y: y }];
     console.log("create");
   }
 
   update(p5: p5) {
     this.theta += p5.PI / 100;
+    // 軌跡
+    p5.stroke(this.color.body);
+    if (this.trajectory.length >= 45) {
+      this.trajectory.shift();
+    }
+    const tailPosition = {
+      x: this.position.x - 25 * p5.sin(this.angle),
+      y: this.position.y + 25 * p5.cos(this.angle),
+    };
+    this.trajectory.push(tailPosition);
+    for (const [idx, point] of this.trajectory.entries()) {
+      this.trajectory[idx + 1] &&
+        p5.line(
+          point.x,
+          point.y,
+          this.trajectory[idx + 1].x,
+          this.trajectory[idx + 1].y
+        );
+    }
+    p5.noStroke();
   }
 
   display(p5: p5) {

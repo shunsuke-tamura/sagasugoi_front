@@ -52,15 +52,10 @@ export class CarpClass {
   }
 
   update(p5: p5) {
-    this.theta += p5.PI / 100;
-  }
-
-  display(p5: p5) {
     f += 1;
+    this.theta += p5.PI / 100;
 
-    p5.push();
-    p5.noStroke();
-    p5.translate(this.position.x, this.position.y);
+    // 帰巣本能
     if (
       this.position.x < -30 ||
       this.position.y < -30 ||
@@ -94,7 +89,7 @@ export class CarpClass {
       f = 1;
     }
 
-    // 慣性
+    // 慣性-角度
     if (
       Math.abs(this.nextAngularVelocity) -
         Math.abs(this.currentAngularVelocity) >
@@ -107,9 +102,8 @@ export class CarpClass {
       this.currentAngularVelocity = this.nextAngularVelocity;
     }
     this.angle += (p5.PI / 180) * this.currentAngularVelocity;
-    p5.rotate(this.angle);
 
-    // 慣性
+    // 慣性-移動
     if (Math.abs(this.nextSpeed - this.currentSpeed) > 0.01) {
       this.currentSpeed +=
         (this.nextSpeed - this.currentSpeed) * p5.sin(((p5.PI / 2) * f) / 60);
@@ -118,6 +112,20 @@ export class CarpClass {
     }
     this.position.x += this.currentSpeed * p5.sin(this.angle);
     this.position.y += -this.currentSpeed * p5.cos(this.angle);
+
+    // 軌跡配列
+    const tailPosition = {
+      x: this.position.x - 25 * p5.sin(this.angle),
+      y: this.position.y + 25 * p5.cos(this.angle),
+    };
+    this.trajectory.push(tailPosition);
+  }
+
+  display(p5: p5) {
+    p5.push();
+    p5.noStroke();
+    p5.translate(this.position.x, this.position.y);
+    p5.rotate(this.angle);
 
     //左右のヒレ
     for (let i = -1; i <= 1; i += 2) {
@@ -157,11 +165,6 @@ export class CarpClass {
     if (this.trajectory.length >= 45) {
       this.trajectory.shift();
     }
-    const tailPosition = {
-      x: this.position.x - 25 * p5.sin(this.angle),
-      y: this.position.y + 25 * p5.cos(this.angle),
-    };
-    this.trajectory.push(tailPosition);
     for (const [idx, point] of this.trajectory.entries()) {
       this.trajectory[idx + 1] &&
         p5.line(

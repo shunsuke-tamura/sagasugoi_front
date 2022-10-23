@@ -53,26 +53,6 @@ export class CarpClass {
 
   update(p5: p5) {
     this.theta += p5.PI / 100;
-    // 軌跡
-    p5.stroke(this.color.body);
-    if (this.trajectory.length >= 45) {
-      this.trajectory.shift();
-    }
-    const tailPosition = {
-      x: this.position.x - 25 * p5.sin(this.angle),
-      y: this.position.y + 25 * p5.cos(this.angle),
-    };
-    this.trajectory.push(tailPosition);
-    for (const [idx, point] of this.trajectory.entries()) {
-      this.trajectory[idx + 1] &&
-        p5.line(
-          point.x,
-          point.y,
-          this.trajectory[idx + 1].x,
-          this.trajectory[idx + 1].y
-        );
-    }
-    p5.noStroke();
   }
 
   display(p5: p5) {
@@ -167,6 +147,31 @@ export class CarpClass {
     p5.bezierVertex(0, 8, 0, 8, -3, 15);
     p5.bezierVertex(-3, 15, -5, 5, 0, 0);
     p5.endShape();
+    p5.pop();
+
+    // 軌跡
+    p5.push();
+    p5.rotate(-this.angle);
+    p5.translate(-this.position.x, -this.position.y);
+    p5.stroke(this.color.body);
+    if (this.trajectory.length >= 45) {
+      this.trajectory.shift();
+    }
+    const tailPosition = {
+      x: this.position.x - 25 * p5.sin(this.angle),
+      y: this.position.y + 25 * p5.cos(this.angle),
+    };
+    this.trajectory.push(tailPosition);
+    for (const [idx, point] of this.trajectory.entries()) {
+      this.trajectory[idx + 1] &&
+        p5.line(
+          point.x,
+          point.y,
+          this.trajectory[idx + 1].x,
+          this.trajectory[idx + 1].y
+        );
+    }
+    p5.noStroke();
     p5.pop();
 
     //胴体

@@ -5,6 +5,7 @@ import p5 from "p5";
 const size = { x: 15, y: 40 };
 let f = 1;
 const canvasSize = { x: 500, y: 500 };
+const photoSize = 30;
 
 type CarpColor = {
   filet: p5.Color;
@@ -30,6 +31,7 @@ export class CarpClass {
   nextSpeed: number;
   comeback: boolean;
   trajectory: { x: number; y: number }[];
+  img: p5.Image;
   constructor(p5: p5, carpData: Carp) {
     const x = getRandomIntNum(30, canvasSize.x - 30);
     const y = getRandomIntNum(30, canvasSize.y - 30);
@@ -48,6 +50,9 @@ export class CarpClass {
     this.nextSpeed = 1;
     this.comeback = false;
     this.trajectory = [{ x: x, y: y }];
+    this.img = p5.loadImage(
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/A_cat_on_a_motorcycle_in_the_medina_of_Tunis_20171017_131525.jpg/1200px-A_cat_on_a_motorcycle_in_the_medina_of_Tunis_20171017_131525.jpg"
+    );
     console.log("create");
   }
 
@@ -162,6 +167,7 @@ export class CarpClass {
     p5.rotate(-this.angle);
     p5.translate(-this.position.x, -this.position.y);
     p5.stroke(this.color.body);
+    p5.strokeWeight(3);
     if (this.trajectory.length >= 45) {
       this.trajectory.shift();
     }
@@ -175,6 +181,37 @@ export class CarpClass {
         );
     }
     p5.noStroke();
+
+    // 画像
+    p5.push();
+    const trajectoryAngle = p5
+      .createVector(-50, 0)
+      .angleBetween(
+        p5.createVector(
+          this.trajectory[1].x - this.trajectory[0].x,
+          this.trajectory[1].y - this.trajectory[0].y
+        )
+      );
+    p5.translate(this.trajectory[0].x, this.trajectory[0].y);
+    p5.rotate(trajectoryAngle);
+    const size =
+      this.img.width > this.img.height ? this.img.height : this.img.width;
+    p5.copy(
+      this.img,
+      (this.img.width - size) / 2,
+      (this.img.height - size) / 2,
+      size,
+      size,
+      -photoSize / 2,
+      -photoSize / 2,
+      photoSize,
+      photoSize
+    );
+    p5.noFill();
+    p5.stroke(this.color.body);
+    p5.strokeWeight(3);
+    p5.rect(-photoSize / 2, -photoSize / 2, photoSize, photoSize);
+    p5.pop();
     p5.pop();
 
     //胴体

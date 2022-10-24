@@ -132,36 +132,6 @@ export class CarpClass {
     p5.translate(this.position.x, this.position.y);
     p5.rotate(this.angle);
 
-    //左右のヒレ
-    for (let i = -1; i <= 1; i += 2) {
-      p5.push();
-      p5.fill(this.color.filet);
-      p5.translate(0, 10);
-      p5.rotate((p5.PI / 12) * p5.sin(this.theta * 2) * i);
-
-      p5.beginShape();
-      p5.vertex(0, 0);
-      p5.vertex(12 * i, 4);
-      p5.vertex(10 * i, 10);
-      p5.vertex(0, 4);
-      p5.endShape();
-      p5.pop();
-    }
-
-    //尻尾
-    p5.push();
-    p5.fill(this.color.filet);
-    p5.translate(0, 25);
-    p5.rotate((p5.PI / 12) * p5.sin(this.theta * 2));
-    p5.beginShape();
-    p5.vertex(0, 0);
-    p5.bezierVertex(0, 0, 5, 5, 3, 15);
-    p5.bezierVertex(3, 15, 0, 8, 0, 8);
-    p5.bezierVertex(0, 8, 0, 8, -3, 15);
-    p5.bezierVertex(-3, 15, -5, 5, 0, 0);
-    p5.endShape();
-    p5.pop();
-
     // 軌跡
     p5.push();
     p5.rotate(-this.angle);
@@ -212,6 +182,36 @@ export class CarpClass {
     p5.strokeWeight(3);
     p5.rect(-photoSize / 2, -photoSize / 2, photoSize, photoSize);
     p5.pop();
+    p5.pop();
+
+    //左右のヒレ
+    for (let i = -1; i <= 1; i += 2) {
+      p5.push();
+      p5.fill(this.color.filet);
+      p5.translate(0, 10);
+      p5.rotate((p5.PI / 12) * p5.sin(this.theta * 2) * i);
+
+      p5.beginShape();
+      p5.vertex(0, 0);
+      p5.vertex(12 * i, 4);
+      p5.vertex(10 * i, 10);
+      p5.vertex(0, 4);
+      p5.endShape();
+      p5.pop();
+    }
+
+    //尻尾
+    p5.push();
+    p5.fill(this.color.filet);
+    p5.translate(0, 25);
+    p5.rotate((p5.PI / 12) * p5.sin(this.theta * 2));
+    p5.beginShape();
+    p5.vertex(0, 0);
+    p5.bezierVertex(0, 0, 5, 5, 3, 15);
+    p5.bezierVertex(3, 15, 0, 8, 0, 8);
+    p5.bezierVertex(0, 8, 0, 8, -3, 15);
+    p5.bezierVertex(-3, 15, -5, 5, 0, 0);
+    p5.endShape();
     p5.pop();
 
     //胴体

@@ -31,6 +31,7 @@ export class CarpClass {
   nextSpeed: number;
   comeback: boolean;
   trajectory: { x: number; y: number }[];
+  trajectoryAngle: number;
   img: p5.Image;
   constructor(p5: p5, carpData: Carp) {
     const x = getRandomIntNum(30, canvasSize.x - 30);
@@ -50,6 +51,7 @@ export class CarpClass {
     this.nextSpeed = 1;
     this.comeback = false;
     this.trajectory = [{ x: x, y: y }];
+    this.trajectoryAngle = 0;
     this.img = p5.loadImage(
       "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/A_cat_on_a_motorcycle_in_the_medina_of_Tunis_20171017_131525.jpg/1200px-A_cat_on_a_motorcycle_in_the_medina_of_Tunis_20171017_131525.jpg"
     );
@@ -124,18 +126,18 @@ export class CarpClass {
       y: this.position.y + 25 * p5.cos(this.angle),
     };
     this.trajectory.push(tailPosition);
+    this.trajectoryAngle = p5
+      .createVector(-50, 0)
+      .angleBetween(
+        p5.createVector(
+          this.trajectory[1].x - this.trajectory[0].x,
+          this.trajectory[1].y - this.trajectory[0].y
+        )
+      );
   }
 
   display(p5: p5) {
-    p5.push();
-    p5.noStroke();
-    p5.translate(this.position.x, this.position.y);
-    p5.rotate(this.angle);
-
     // 軌跡
-    p5.push();
-    p5.rotate(-this.angle);
-    p5.translate(-this.position.x, -this.position.y);
     p5.stroke(this.color.body);
     p5.strokeWeight(3);
     if (this.trajectory.length >= 45) {
@@ -150,20 +152,11 @@ export class CarpClass {
           this.trajectory[idx + 1].y
         );
     }
-    p5.noStroke();
 
     // 画像
     p5.push();
-    const trajectoryAngle = p5
-      .createVector(-50, 0)
-      .angleBetween(
-        p5.createVector(
-          this.trajectory[1].x - this.trajectory[0].x,
-          this.trajectory[1].y - this.trajectory[0].y
-        )
-      );
     p5.translate(this.trajectory[0].x, this.trajectory[0].y);
-    p5.rotate(trajectoryAngle);
+    p5.rotate(this.trajectoryAngle);
     const size =
       this.img.width > this.img.height ? this.img.height : this.img.width;
     p5.copy(
@@ -182,7 +175,11 @@ export class CarpClass {
     p5.strokeWeight(3);
     p5.rect(-photoSize / 2, -photoSize / 2, photoSize, photoSize);
     p5.pop();
-    p5.pop();
+
+    p5.push();
+    p5.noStroke();
+    p5.translate(this.position.x, this.position.y);
+    p5.rotate(this.angle);
 
     //左右のヒレ
     for (let i = -1; i <= 1; i += 2) {
@@ -233,10 +230,17 @@ export class CarpClass {
   }
 
   collider(p5: p5, mouseX: number, mouseY: number): boolean {
+    return (
+      this.carpCollider(p5, mouseX, mouseY) ||
+      this.photoCollider(p5, mouseX, mouseY)
+    );
+  }
+
+  carpCollider(p5: p5, mouseX: number, mouseY: number): boolean {
     p5.push();
     p5.translate(this.position.x, this.position.y);
     p5.rotate(this.angle);
-    const { lt, lb, rt, rb } = this.getRigidbody();
+    const { lt, lb, rt, rb } = this.getCarpRigidbody();
     const x =
       (mouseX - this.position.x) * p5.cos(-this.angle) -
       (mouseY - this.position.y) * p5.sin(-this.angle);
@@ -252,11 +256,31 @@ export class CarpClass {
     return ltrt && rtrb && rblb && lblt;
   }
 
-  getRigidbody(): Rigidbody {
+  getCarpRigidbody(): Rigidbody {
     const lt = { x: -size.x / 2, y: 0 };
     const lb = { x: -size.x / 2, y: size.y };
     const rt = { x: +size.x / 2, y: 0 };
     const rb = { x: +size.x / 2, y: size.y };
     return { lt: lt, lb: lb, rt: rt, rb: rb };
+  }
+
+  photoCollider(p5: p5, mouseX: number, mouseY: number): boolean {
+    p5.push();
+    p5.translate(this.trajectory[0].x, this.trajectory[0].y);
+    p5.rotate(this.trajectoryAngle);
+    const x =
+      (mouseX - this.trajectory[0].x) * p5.cos(-this.trajectoryAngle) -
+      (mouseY - this.trajectory[0].y) * p5.sin(-this.trajectoryAngle);
+    const y =
+      (mouseX - this.trajectory[0].x) * p5.sin(-this.trajectoryAngle) +
+      (mouseY - this.trajectory[0].y) * p5.cos(-this.trajectoryAngle);
+    p5.pop();
+
+    return (
+      -photoSize / 2 <= x &&
+      photoSize / 2 >= x &&
+      -photoSize / 2 <= y &&
+      photoSize / 2 >= y
+    );
   }
 }

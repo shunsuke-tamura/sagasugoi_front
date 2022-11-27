@@ -90,7 +90,7 @@ const doCancel = () => {
 const getSASUrl = async (
   targetFlielExtension: string
 ): Promise<[string | undefined, string | undefined]> => {
-  const res = await axiosClient().get("/token_for_upload_image");
+  const res = await axiosClient().get("/sas_token");
   if (res.status != 200) {
     console.error("cannot get SAS Token");
     return [undefined, undefined];

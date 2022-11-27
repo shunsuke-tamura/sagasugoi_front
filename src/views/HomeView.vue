@@ -32,6 +32,7 @@ const carpData = ref<Carp>({
   r: 0,
   g: 0,
   b: 0,
+  imageName: undefined,
 });
 const showDetail = ref<boolean>(false);
 

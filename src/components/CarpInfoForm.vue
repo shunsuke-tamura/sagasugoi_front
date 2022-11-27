@@ -65,7 +65,7 @@ import axiosClient from "../lib/axios";
 import getRandomIntNum from "@/lib/GetRandomIntNum";
 import { v4 as uuidv4 } from "uuid";
 import { SASToken } from "@/types/SASToken";
-import { BlockBlobClient, AnonymousCredential } from "@azure/storage-blob";
+import { BlockBlobClient } from "@azure/storage-blob";
 
 const word = ref<string | undefined>(undefined);
 const comment = ref<string | undefined>(undefined);

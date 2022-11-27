@@ -42,5 +42,5 @@ export const uploadImage = async (
   }
   const blockBlobClient = new BlockBlobClient(imageUrl);
   blockBlobClient.uploadData(targetFile);
-  return fileName;
+  return `${fileName}.${extension}`;
 };

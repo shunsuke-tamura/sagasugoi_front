@@ -45,8 +45,7 @@
 <script setup lang="ts">
 import { Carp } from "@/types/Carp";
 import { defineProps, defineEmits, toRefs, ref, watch } from "vue";
-import axiosClinet from "@/lib/axios";
-import { SASToken } from "@/types/SASToken";
+import { getImageBlobUrl } from "@/lib/sas_token";
 
 type CarpInfoProps = {
   show: boolean;
@@ -57,30 +56,10 @@ const props = defineProps<CarpInfoProps>();
 const { carp, show } = toRefs(props);
 
 const imageUrl = ref<string | undefined>(undefined);
-const getImageUrl = async (imageName: string): Promise<string | undefined> => {
-  const res = await axiosClinet().get("/sas_token");
-  if (res.status != 200) {
-    console.error("cannot get sas token");
-    return undefined;
-  }
-  const sasToken: SASToken = res.data;
-  return `${sasToken.url}/image/${imageName}?${sasToken.sasKey}`;
-};
 
 watch(carp, async (nextVal) => {
-  if (nextVal.imageName) {
-    const url = await getImageUrl(nextVal.imageName);
-    if (!url) {
-      return;
-    }
-    const res = await axiosClinet().get(url, {
-      responseType: "arraybuffer",
-    });
-    const image = res.data;
-    imageUrl.value = URL.createObjectURL(
-      new Blob([image], { type: "image/jpg" })
-    );
-  }
+  imageUrl.value =
+    nextVal.imageName && (await getImageBlobUrl(nextVal.imageName));
 });
 
 const emit = defineEmits(["close"]);

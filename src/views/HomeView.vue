@@ -43,6 +43,15 @@ const showCarpDetail = (data: Carp) => {
 
 const closeDialog = () => {
   showDetail.value = false;
+  carpData.value = {
+    word: "",
+    comment: "",
+    url: undefined,
+    r: 0,
+    g: 0,
+    b: 0,
+    imageName: undefined,
+  };
 };
 
 const carps = ref<Carp[]>([]);

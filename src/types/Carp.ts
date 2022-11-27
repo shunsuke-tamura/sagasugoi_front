@@ -5,4 +5,5 @@ export type Carp = {
   r: number;
   g: number;
   b: number;
+  imageName: string | undefined;
 };

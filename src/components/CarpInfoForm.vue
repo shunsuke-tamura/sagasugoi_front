@@ -63,11 +63,14 @@
 import { ref, defineEmits, watch } from "vue";
 import axiosClient from "../lib/axios";
 import getRandomIntNum from "@/lib/GetRandomIntNum";
+import { v4 as uuidv4 } from "uuid";
+import { SASToken } from "@/types/SASToken";
+import { BlockBlobClient, AnonymousCredential } from "@azure/storage-blob";
 
 const word = ref<string | undefined>(undefined);
 const comment = ref<string | undefined>(undefined);
 const url = ref<string | undefined>(undefined);
-const image = ref<Blob | undefined>(undefined);
+const image = ref<File | undefined>(undefined);
 const imageUrl = ref<string | undefined>(undefined);
 const dialog = ref<boolean>(false);
 const valid = ref<boolean>(false);
@@ -84,8 +87,40 @@ const doCancel = () => {
   closeDialog();
 };
 
+const getSASUrl = async (
+  targetFlielExtension: string
+): Promise<[string | undefined, string | undefined]> => {
+  const res = await axiosClient().get("/token_for_upload_image");
+  if (res.status != 200) {
+    console.error("cannot get SAS Token");
+    return [undefined, undefined];
+  }
+  const sasToken: SASToken = res.data;
+  const fileName = uuidv4();
+  return [
+    `${sasToken.url}/image/${fileName}.${targetFlielExtension}?${sasToken.sasKey}`,
+    `${fileName}.${targetFlielExtension}`,
+  ];
+};
+
+const uploadImage = async (targetFile: File): Promise<string | undefined> => {
+  const extension = targetFile.name.split(".").pop();
+  if (!extension) {
+    console.error("cannot extract extention");
+    return undefined;
+  }
+  const [sasUrl, fileName] = await getSASUrl(extension);
+  if (!sasUrl) {
+    return undefined;
+  }
+  const blockBlobClient = new BlockBlobClient(sasUrl);
+  blockBlobClient.uploadData(targetFile);
+  return fileName;
+};
+
 const emit = defineEmits(["addCarp"]);
 const doSubmit = async () => {
+  const imageName = image.value ? await uploadImage(image.value) : undefined;
   const r = getRandomIntNum(0, 256);
   const g = getRandomIntNum(0, 256);
   const b = getRandomIntNum(0, 256);
@@ -96,6 +131,7 @@ const doSubmit = async () => {
     r: r,
     g: g,
     b: b,
+    imageName: imageName,
   };
   console.log(data);
   const res = await axiosClient().post("/carps/", data);

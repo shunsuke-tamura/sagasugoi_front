@@ -17,6 +17,28 @@
             required
           ></v-textarea>
           <v-text-field v-model="url" label="参考URL"></v-text-field>
+          <v-file-input
+            v-model="image"
+            accept="image/*"
+            label="画像"
+            prepend-icon="mdi-camera"
+          ></v-file-input>
+          <v-img
+            v-if="imageUrl"
+            contain
+            :src="imageUrl"
+            max-width="500"
+            max-height="300"
+          >
+            <template v-slot:placeholder>
+              <v-row class="fill-height ma-0" align="center" justify="center">
+                <v-progress-circular
+                  indeterminate
+                  color="grey lighten-1"
+                ></v-progress-circular>
+              </v-row>
+            </template>
+          </v-img>
         </v-form>
         <v-card-actions>
           <v-spacer></v-spacer>
@@ -38,15 +60,21 @@
 </template>
 
 <script setup lang="ts">
-import { ref, defineEmits } from "vue";
+import { ref, defineEmits, watch } from "vue";
 import axiosClient from "../lib/axios";
 import getRandomIntNum from "@/lib/GetRandomIntNum";
 
 const word = ref<string | undefined>(undefined);
 const comment = ref<string | undefined>(undefined);
 const url = ref<string | undefined>(undefined);
+const image = ref<Blob | undefined>(undefined);
+const imageUrl = ref<string | undefined>(undefined);
 const dialog = ref<boolean>(false);
 const valid = ref<boolean>(false);
+
+watch(image, (nextVal) => {
+  imageUrl.value = nextVal && URL.createObjectURL(nextVal);
+});
 
 const closeDialog = () => {
   dialog.value = false;

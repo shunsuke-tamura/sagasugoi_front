@@ -104,6 +104,11 @@ const doSubmit = async () => {
   const res = await axiosClient().post("/carps/", data);
   console.log(res.data);
   closeDialog();
+  word.value = undefined;
+  comment.value = undefined;
+  url.value = undefined;
+  image.value = undefined;
+  imageUrl.value = undefined;
   emit("addCarp", res.data);
 };
 </script>

@@ -20,6 +20,7 @@
         <v-img
           v-if="carp.imageName"
           contain
+          lazy-src="../assets/loading.png"
           :src="imageUrl"
           max-width="500"
           max-height="300"

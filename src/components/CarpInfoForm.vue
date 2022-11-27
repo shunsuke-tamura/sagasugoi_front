@@ -26,6 +26,7 @@
           <v-img
             v-if="imageUrl"
             contain
+            lazy-src="../assets/loading.png"
             :src="imageUrl"
             max-width="500"
             max-height="300"

@@ -110,6 +110,7 @@ const doSubmit = async () => {
   url.value = undefined;
   image.value = undefined;
   imageUrl.value = undefined;
+  await new Promise((s) => setTimeout(s, 1000));
   emit("addCarp", res.data);
 };
 </script>
